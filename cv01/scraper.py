@@ -20,7 +20,7 @@ def parse_info(article: BeautifulSoup, cookies: dict):
         file.write(soup.prettify())
 
     title = soup.find('h1').text
-
+    # Getting the whole text of the article
     text = ''
     for paragraph in soup.find_all('p'):
         text += paragraph.text + '\n'
@@ -29,7 +29,7 @@ def parse_info(article: BeautifulSoup, cookies: dict):
     categories = [a.text for a in soup.find_all('a', class_='b')]
 
     try:
-        date = soup.find('span', class_='time-date').text
+        date = soup.find('span', class_='time-date').get('content')
     except AttributeError:
         date = "NULL"
 
