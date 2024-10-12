@@ -3,3 +3,7 @@
 __pycache__
 *.pyc
 .DS_Store
+
+# Files I dont need in Git
+idnes_cookies.txt
+*.json
