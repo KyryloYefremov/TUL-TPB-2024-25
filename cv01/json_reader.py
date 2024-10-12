@@ -3,12 +3,12 @@ import json
 from scraper import OUTPUT_FILENAME
 
 
-def read_scraper_output_json(json_file):
+def read_json(json_file: str) -> list[dict]:
     with open(json_file, 'r', encoding='utf-8') as file:
         return json.load(file)
 
 
-def print_json(json_output):
+def print_scraper_output_json(json_output):
     """
     Prints the first 5 articles from the json_output
     """
@@ -25,6 +25,6 @@ def print_json(json_output):
 
 
 if __name__ == '__main__':
-    json_output = read_scraper_output_json(OUTPUT_FILENAME)
-    print_json(json_output= json_output)
+    json_output = read_json(OUTPUT_FILENAME)
+    print_scraper_output_json(json_output=json_output)
 
