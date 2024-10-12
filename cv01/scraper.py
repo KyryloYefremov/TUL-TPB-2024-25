@@ -10,7 +10,7 @@ from cookies_parser import parse_cookie_file
 URL = "https://www.idnes.cz/"
 OUTPUT_FILENAME = 'idnes-data.json'
 MAX_THREADS = 20
-ARTICLES_NUM = 25000
+ARTICLES_NUM = 130000
 
 
 def parse_info(href: str, cookies: dict, links_to_parse: list[str], processed_links: set) -> dict | None:
@@ -104,17 +104,18 @@ def main():
                     outputs.append(json_result)
                     processed_links.add(json_result['link'])
                     print(len(outputs))
-
-    # Saving the parsed data to a file
-    with open(OUTPUT_FILENAME, 'w', encoding='utf-8') as file:
-        json_to_write = json.dumps(outputs, ensure_ascii=False, indent=2)
-        file.write(json_to_write)
-
-    print("Done\n" + "=" * 100)
-    sss = set([res['link'] for res in outputs])
-    print(len(outputs))
-    print(len(sss))
+                    if len(outputs) >= ARTICLES_NUM:
+                        return outputs
 
 
 if __name__ == '__main__':
-    main()
+    result = main()
+    # Saving the parsed data to a file
+    with open(OUTPUT_FILENAME, 'w', encoding='utf-8', errors='replace') as file:
+        json_to_write = json.dumps(result, ensure_ascii=False, indent=2)
+        file.write(json_to_write)
+
+    print("Done\n" + "=" * 100)
+    # sss = set([res['link'] for res in result])
+    # print(len(result))
+    # print(len(sss))
