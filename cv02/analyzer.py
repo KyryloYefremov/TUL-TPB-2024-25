@@ -1,5 +1,8 @@
 import pandas as pd
 import pprint as pp
+import re
+
+from collections import Counter
 
 import sys
 sys.path.insert(0, "/Users/kirillefremov/development/PycharmProjects/TUL-TPB-2024-25/cv01")
@@ -14,6 +17,7 @@ def preprocess(art_list: list[dict]) -> pd.DataFrame:
     df = pd.DataFrame(art_list)
     df.comments_num.astype("int")
     df.img_count.astype("int")
+    df.date = pd.to_datetime(df['date'], errors='coerce', utc=True)
     return df
 
 
@@ -45,7 +49,55 @@ def main():
     max_article_photos = df.img_count.max()
     print(f"5. Highest number of added photos: {max_article_photos}")
 
+    ### Printing the number of articles per date of publishing
+    articles_per_year = df.groupby(df['date'].dt.year).size().reset_index(name='articles_count')
+    print("6. Articles per year:")
+    print(articles_per_year)
+
+
+    ### Printing the number of unique cats and the number of articles in every cat
+    cats = [cat for cat_list in df.categories for cat in cat_list]
+    articles_per_cat_count = Counter(cats)
+    unique_cats = len(articles_per_cat_count)
+    print(f"7. Unique categories: {unique_cats}")
+    print("Articles per category:")
+    for i, cat in enumerate(articles_per_cat_count.keys()):
+        print(f"\t'{cat}' - {articles_per_cat_count[cat]}")
+        if i >= 5: break
+
+    ### Printing 5 most frequent words from articles' titles since 2021
+    titles_word_counter = Counter()
+    articles_after_2021 = df[df["date"].dt.year > 2020.0]
+    for title in articles_after_2021.title:
+        words = re.findall(r'\b\w+\b', title.lower())
+        titles_word_counter.update(words)
+
+    print("8. Titles' 5 most frequent words:")
+    for (w, n) in titles_word_counter.most_common(5):
+        print(f"\t{w} - {n}")
+
+    ### Printing total comments number
+    total_comments = df.comments_num.sum()
+    print(f"9. Total number of comments: {total_comments}")
+
+    ### Printing total number of words in all articles
+    texts_word_num = 0
+    texts_word_counter = Counter()
+    for text in df.text:
+        words = re.findall(r'\b\w+\b', text.lower())
+        texts_word_counter.update(words)
+        texts_word_num += len(words)
+
+    print(f"10. Total number of words: {texts_word_num}, {texts_word_counter.__len__()}")
+
+
     
+
+
+
+
+    
+
 
 
 
