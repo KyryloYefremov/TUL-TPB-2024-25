@@ -28,34 +28,33 @@ def main():
     # print(df.columns)
     # ['title', 'text', 'img_count', 'categories', 'date', 'comments_num', 'link']
 
-    ### Printing articles number
+    ### 1. Printing articles number
     articles_num = df.__len__()
     print(f"1. Articles number: {articles_num}")
 
-    ### Printing number of duplicated articles
+    ### 2. Printing number of duplicated articles
     duplicates_num = sum(df.title.duplicated())
     print(f"2. Number of duplicated articles: {duplicates_num}")
 
-    ### Printing the date of the oldest article
+    ### 3. Printing the date of the oldest article
     oldest_date = df.date.min()
     print(f"3. Atricle's oldest date: {oldest_date}")
 
-    ### Printing an article name with the most comments number
+    ### 4. Printing an article name with the most comments number
     max_comments_num = df.max()["comments_num"]
     max_comments_article = df._get_value(df.idxmax()["comments_num"], "title")
     print(f"4. Article name: '{max_comments_article}'.\n\tComments num: {max_comments_num}")
 
-    ### Printing the highest number of added photos of an article
+    ### 5. Printing the highest number of added photos of an article
     max_article_photos = df.img_count.max()
     print(f"5. Highest number of added photos: {max_article_photos}")
 
-    ### Printing the number of articles per date of publishing
+    ### 6. Printing the number of articles per date of publishing
     articles_per_year = df.groupby(df['date'].dt.year).size().reset_index(name='articles_count')
     print("6. Articles per year:")
     print(articles_per_year)
 
-
-    ### Printing the number of unique cats and the number of articles in every cat
+    ### 7. Printing the number of unique cats and the number of articles in every cat
     cats = [cat for cat_list in df.categories for cat in cat_list]
     articles_per_cat_count = Counter(cats)
     unique_cats = len(articles_per_cat_count)
@@ -65,7 +64,7 @@ def main():
         print(f"\t'{cat}' - {articles_per_cat_count[cat]}")
         if i >= 5: break
 
-    ### Printing 5 most frequent words from articles' titles since 2021
+    ### 8. Printing 5 most frequent words from articles' titles since 2021
     titles_word_counter = Counter()
     articles_after_2021 = df[df["date"].dt.year > 2020.0]
     for title in articles_after_2021.title:
@@ -76,11 +75,11 @@ def main():
     for (w, n) in titles_word_counter.most_common(5):
         print(f"\t{w} - {n}")
 
-    ### Printing total comments number
+    ### 9. Printing total comments number
     total_comments = df.comments_num.sum()
     print(f"9. Total number of comments: {total_comments}")
 
-    ### Printing total number of words in all articles
+    ### 10. Printing total number of words in all articles
     texts_word_num = 0
     texts_word_counter = Counter()
     for text in df.text:
