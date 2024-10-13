@@ -1,5 +1,4 @@
 import pandas as pd
-import pprint as pp
 import re
 
 from collections import Counter
@@ -49,7 +48,7 @@ def main_task(df: pd.DataFrame):
     ### 6. Printing the number of articles per date of publishing
     articles_per_year = df.groupby(df['date'].dt.year).size().reset_index(name='articles_count')
     print("6. Articles per year:")
-    print(articles_per_year)
+    print(articles_per_year.astype(int))
 
     ### 7. Printing the number of unique cats and the number of articles in every cat
     cats = [cat for cat_list in df.categories for cat in cat_list]
@@ -135,11 +134,21 @@ def bonus_task(df: pd.DataFrame):
     average_wl = round(average_words_length_sum / df.title.size)
     print(f"4. Average word length: {average_wl}")
 
+    ### 5. Printing month with max and min published articles
+    articles_per_month = df.groupby(df['date'].dt.month).size().reset_index(name='articles_count')
+    max_articles = articles_per_month.max().astype(int)
+    min_articles = articles_per_month.min().astype(int)
+    print(f"5. Month with max published articles:")
+    print(f"\tMonth: {max_articles["date"]} = {max_articles["articles_count"]}")
+    print(f"   Month with min published articles:")
+    print(f"\tMonth: {min_articles["date"]} = {min_articles["articles_count"]}")
+
+
 
 
 if __name__ == "__main__":
     articles_list = read_json(INPUT_FILENAME)
     df = preprocess(articles_list)
-    # main_task(df)
+    main_task(df)
     print("=" * 100, "\nBONUS TASKS\n")
     bonus_task(df)
