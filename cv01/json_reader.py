@@ -13,7 +13,7 @@ def print_scraper_output_json(json_output):
     Prints the first 5 articles from the json_output
     """
     for article in json_output[:5]:
-        print('-' * 200 + '\n')
+        print('-' * 100 + '\n')
         print(
             f"Title: {article['title']}\n"
             f"Date: {article['date']}\n"
@@ -25,6 +25,6 @@ def print_scraper_output_json(json_output):
 
 
 if __name__ == '__main__':
-    json_output = read_json(OUTPUT_FILENAME)
+    json_output = read_json(f"cv01/{OUTPUT_FILENAME}")
     print_scraper_output_json(json_output=json_output)
 
