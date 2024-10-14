@@ -9,7 +9,7 @@ sys.path.insert(0, "/Users/kirillefremov/development/PycharmProjects/TUL-TPB-202
 from json_reader import read_json # type: ignore
 
 
-INPUT_FILENAME = "cv01/idnes-data250.json"
+INPUT_FILENAME = "cv01/idnes-data900.json"
 
 
 def preprocess(art_list: list[dict]) -> pd.DataFrame:
@@ -29,8 +29,10 @@ def main_task(df: pd.DataFrame):
     print(f"1. Articles number: {articles_num}")
 
     ### 2. Printing number of duplicated articles
-    duplicates_num = sum(df.title.duplicated())
-    print(f"2. Number of duplicated articles: {duplicates_num}")
+    print(f"2. Number of duplicated articles: {sum(df.title.duplicated())}")
+    df = df.drop_duplicates(subset=['title'])
+    print(f"   Number of duplicated articles: {sum(df.title.duplicated())}")
+    print(f"   Number of articles: {df.title.size}")
 
     ### 3. Printing the date of the oldest article
     oldest_date = df.date.min()
@@ -80,10 +82,10 @@ def main_task(df: pd.DataFrame):
     texts_word_counter = Counter()
     for text in df.text:
         words = re.findall(r'\b\w+\b', text.lower())
-        texts_word_counter.update(words)
+        # texts_word_counter.update(words)
         texts_word_num += len(words)
 
-    print(f"10. Total number of words: {texts_word_num}, {texts_word_counter.__len__()}")
+    print(f"10. Total number of words: {texts_word_num}")
 
 
 def bonus_task(df: pd.DataFrame):
@@ -109,7 +111,10 @@ def bonus_task(df: pd.DataFrame):
 
         # 4
         words_length = [len(word) for word in words]
-        average_words_length_sum += sum(words_length) / len(words_length)
+        try:
+            average_words_length_sum += sum(words_length) / len(words_length)
+        except ZeroDivisionError:
+            pass
 
 
 
@@ -142,8 +147,6 @@ def bonus_task(df: pd.DataFrame):
     print(f"\tMonth: {max_articles["date"]} = {max_articles["articles_count"]}")
     print(f"   Month with min published articles:")
     print(f"\tMonth: {min_articles["date"]} = {min_articles["articles_count"]}")
-
-
 
 
 if __name__ == "__main__":
