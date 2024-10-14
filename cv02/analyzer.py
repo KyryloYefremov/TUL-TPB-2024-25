@@ -12,8 +12,10 @@ from json_reader import read_json # type: ignore
 INPUT_FILENAME = "cv01/idnes-data900.json"
 
 
-def preprocess(art_list: list[dict]) -> pd.DataFrame:
+def preprocess(art_list: list[dict], drop_duplicates=False) -> pd.DataFrame:
     df = pd.DataFrame(art_list)
+    if drop_duplicates:
+        df = df.drop_duplicates(subset=['title'])
     df.comments_num.astype("int")
     df.img_count.astype("int")
     df.date = pd.to_datetime(df['date'], errors='coerce', utc=True)
