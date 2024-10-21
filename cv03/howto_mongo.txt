@@ -10,7 +10,7 @@
 ### 4. Go to docker, to current container
 ### Go to Files window and uplod your json file into data/ folder
 ### After go to exec window and run:
->> mongoimport --jsonArray --db your_database --collection your_collection --file /data/your_file.json
+>> mongoimport --jsonArray --db articles --collection idnes_art --file /data/idnes-data-output.json
 ### Change <your_database> to database name and </data/your_file.json> to the path to your file
 
 ### 5. If you see some logs and upload status lines - your json file is uploading
