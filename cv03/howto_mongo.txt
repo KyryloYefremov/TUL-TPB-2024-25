@@ -1,0 +1,19 @@
+### 1. Upload the mongodb docker image using terminal
+>> docker pull mongo
+
+### 2. Run docker image
+>> docker run --name mongodb_tpb -d -p 27017:27017 mongo
+
+### 3. Check if running
+>> docker ps
+
+### 4. Go to docker, to current container
+### Go to Files window and uplod your json file into data/ folder
+### After go to exec window and run:
+>> mongoimport --jsonArray --db your_database --collection your_collection --file /data/your_file.json
+### Change <your_database> to database name and </data/your_file.json> to the path to your file
+
+### 5. If you see some logs and upload status lines - your json file is uploading
+
+### 6. After you can go to mongo shell using:
+>> mongosh
