@@ -1,0 +1,43 @@
+# Bonus ze cv. 03
+### Samotne ulohy jsou v pdf ke cvičení
+
+
+### 1.
+db.idnes_art.find().limit(1)
+
+### 2.
+db.idnes_art.countDocuments()
+
+### 3.
+db.idnes_art.aggregate([{ $group: {_id: null, averageImages: {$avg: "$img_count"} } }])
+
+### 4. 
+db.idnes_art.countDocuments({ comments_num: {$gt: 100}  })
+
+### 5.
+db.idnes_art.aggregate([{ 
+            $match: { 
+                date: {
+                    $gte: "2022-01-01T00:00:00", 
+                    $lt: "2023-01-01T00:00:00"
+                } 
+            }  
+        }, 
+        {
+            $unwind: "$categories"
+        },
+        { 
+            $group: {
+                _id: "$categories",
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { count: -1 }
+        }])
+
+##### control a articles number in 2022
+db.idnes_art.countDocuments({ date: {
+                    $gte: "2022-01-01T00:00:00", 
+                    $lt: "2023-01-01T00:00:00"
+                } })
