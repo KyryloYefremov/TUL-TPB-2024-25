@@ -1,7 +1,8 @@
 from pyspark import SparkConf, SparkContext
 import collections
+from config import MASTER
 
-conf = SparkConf().setMaster("spark://38e31ed0ed0a:7077").setAppName("RatingsHistogram")
+conf = SparkConf().setMaster(MASTER).setAppName("RatingsHistogram")
 # conf = SparkConf().setMaster("local").setAppName("RatingsHistogram")
 sc = SparkContext(conf = conf)
 
