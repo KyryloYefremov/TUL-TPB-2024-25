@@ -22,8 +22,20 @@ def print_scraper_output_json(json_output):
         )
 
 
-if __name__ == '__main__':
-    from scraper import OUTPUT_FILENAME
-    json_output = read_json(f"cv01/{OUTPUT_FILENAME}")
-    print_scraper_output_json(json_output=json_output)
+def json_to_text_txt(json_file: str, txt_file: str):
+    with open(json_file, 'r', encoding='utf-8') as infile:
+        json_context = json.load(infile)
 
+    with open(txt_file, 'w', encoding='utf-8') as outfile:
+        for article in json_context:
+            outfile.write('"' + article['title'] + '"' + '\n')
+            outfile.write(article['text'] + '\n\n\n')
+
+
+if __name__ == '__main__':
+    # from scraper import OUTPUT_FILENAME
+    # json_output = read_json(f"cv01/{OUTPUT_FILENAME}")
+    # print_scraper_output_json(json_output=json_output)
+    json_file = 'cv01/idnes-data250.json'
+    txt_file = 'cv04/indes-data250.txt'
+    json_to_text_txt(json_file, txt_file)
