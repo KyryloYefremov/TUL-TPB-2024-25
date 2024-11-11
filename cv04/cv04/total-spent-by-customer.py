@@ -5,7 +5,7 @@ conf = SparkConf().setMaster(MASTER).setAppName("RatingsHistogram")
 # conf = SparkConf().setMaster("local").setAppName("RatingsHistogram")
 sc = SparkContext(conf = conf)
 
-lines = sc.textFile("/files/customer-orders.csv")
+lines = sc.textFile("/files/cv04/customer-orders.csv")
 
 
 def parseInfo(line):
