@@ -7,3 +7,4 @@ __pycache__
 # Files I dont need in Git
 idnes_cookies.txt
 *.json
+indes-data250.txt
