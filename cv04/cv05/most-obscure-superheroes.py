@@ -17,12 +17,16 @@ lines = spark.read.text("/files/cv05/marvel-graph.txt")
 connections = lines.withColumn("id", func.split(func.trim(func.col("value")), " ")[0]) \
     .withColumn("connections", func.size(func.split(func.trim(func.col("value")), " ")) - 1) \
     .groupBy("id").agg(func.sum("connections").alias("connections"))
-    
-mostPopular = connections.sort(func.col("connections").desc()).first()
 
-mostPopularName = names.filter(func.col("id") == mostPopular[0]).select("name").first()
+# find min conntctions (consider more than 0)
+min_connections = connections.filter(func.col("connections") > 0).agg(func.min("connections")).first()[0]
 
-print(mostPopularName[0] + " is the most popular superhero with " + str(mostPopular[1]) + " co-appearances.")
+# find heroes with this min connection value
+obscure_heroes = connections.filter(func.col("connections") == min_connections)
+
+obscure_heroes_with_names = obscure_heroes.join(names, "id")
+
+obscure_heroes_with_names.show()
 
 spark.stop()
 
