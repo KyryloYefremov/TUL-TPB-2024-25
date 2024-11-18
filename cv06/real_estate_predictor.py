@@ -31,7 +31,7 @@ labels = full_predictions.select('label').rdd.map(lambda x: x[0])
 # get evaluation
 evaluator = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse")
 rmse = evaluator.evaluate(full_predictions)
-print(f"Evaluation: {rmse}")
+print(f"Mean error: {rmse}")
 
 result = predictions.zip(labels).collect()
 
