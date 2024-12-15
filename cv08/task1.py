@@ -10,7 +10,7 @@ def batch_word_count(input_path):
     # init Flink environment
     env = StreamExecutionEnvironment.get_execution_environment()
     env.set_runtime_mode(RuntimeExecutionMode.BATCH)
-    env.set_parallelism(1)  # Single parallelism for simplicity
+    env.set_parallelism(1)  # single parallelism
 
     # read data from files
     ds = env.read_text_file(input_path)
