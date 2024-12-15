@@ -1,0 +1,34 @@
+1.
+MATCH (anything) RETURN (anything) LIMIT 10
+
+2.
+MATCH (movie:Movie) RETURN (movie) LIMIT 10
+
+3.
+MATCH (actor:Person)-[:ACTED_IN]->(movie:Movie)
+WHERE movie.title = 'The Matrix'
+RETURN movie.title, actor.name
+ORDER BY actor.name ASC
+
+4.
+MATCH (actor:Person{name: 'Keanu Reeves'})-[:ACTED_IN]->(movie:Movie)
+RETURN actor.name, movie.title
+
+5.
+MATCH (actor:Person{name: 'Keanu Reeves'})-[:ACTED_IN]->(movie:Movie)
+RETURN COUNT(movie) AS MovieCount
+
+6.
+MATCH (actor:Person)-[:ACTED_IN]->(movie:Movie)
+WHERE actor.name = 'Keanu Reeves' OR  actor.name = 'Carrie-Anne Moss'
+RETURN movie.title, actor.name
+
+7.
+MATCH (keanu:Person{name: "Keanu Reeves"})
+CREATE (m:Movie{title: 'John Wick'})<-[:ACTED_IN]-(keanu)
+RETURN m, keanu
+
+8.
+MATCH (k:Person{name: 'Keanu Reeves'})
+SET k.born_state = 'Kanada'
+RETURN k
