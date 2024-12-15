@@ -1,0 +1,27 @@
+1.
+MATCH (actor:Person)-[role:ACTED_IN]->(movie:Movie)
+RETURN AVG(role.earnings) AS Avg_Earnings
+
+2.
+### debug version:
+MATCH (tom:Person{name: 'Tom Hanks'})-[:HAS_CONTACT]->(contact:Person)
+MATCH (contact)-[role:ACTED_IN]->(movie:Movie)
+WHERE contact.born >= 1960 AND role.earnings >= 10000000
+RETURN tom, contact, movie
+
+### true version:
+MATCH (tom:Person{name: 'Tom Hanks'})-[:HAS_CONTACT]->(contact:Person)
+MATCH (contact)-[role:ACTED_IN]->(movie:Movie)
+WHERE contact.born >= 1960 AND role.earnings >= 10000000
+RETURN contact.name, contact.born, role.earnings as Earnings
+ORDER BY Earnings DESC
+
+3. 
+MATCH (actor:Person)-[role:ACTED_IN]->(movie:Movie)
+WITH actor, SUM(role.earnings) as all_earnings
+WHERE all_earnings >= 50000000
+SET actor:Rich
+RETURN actor, all_earnings
+
+4.
+# TODO
