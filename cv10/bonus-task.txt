@@ -24,4 +24,9 @@ SET actor:Rich
 RETURN actor, all_earnings
 
 4.
-# TODO
+MERGE (keanu:Person {name: "Keanu Reeves"}) 
+MERGE (movie:Movie {title: "Top Gun"})
+MERGE (keanu)-[v:VIEWED]->(movie)
+ON CREATE SET v.count = 1
+ON MATCH SET v.count = v.count + 1
+RETURN keanu, movie, v
